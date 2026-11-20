@@ -4,8 +4,10 @@ name: Build Stardew Performance Optimizer
 on:
   push:
     branches: [ main ]
+
   pull_request:
     branches: [ main ]
+
   workflow_dispatch:
 
 jobs:
@@ -13,21 +15,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Mengambil source code repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Menyiapkan lingkungan build SMAPI
       - name: Setup SMAPI build environment
         uses: Pathoschild/SMAPI-ModBuildWorkflow/add-build-environment@v1
 
+      # 3. Memulihkan dependency
       - name: Restore dependencies
         run: dotnet restore StardewPerformanceOptimizer.vbproj
 
+      # 4. Mengompilasi mod
       - name: Build mod
         run: dotnet build StardewPerformanceOptimizer.vbproj --configuration Release --no-restore
 
-      - name: Upload compiled DLL
+      # 5. Menyiapkan folder hasil build
+      - name: Prepare mod package
+        run: |
+          mkdir -p artifact
+          cp bin/Release/net6.0/StardewPerformanceOptimizer.dll artifact/
+          cp manifest.json artifact/
+
+      # 6. Mengunggah DLL dan manifest
+      - name: Upload mod package
         uses: actions/upload-artifact@v4
         with:
-          name: StardewPerformanceOptimizer-DLL
-          path: bin/Release/net6.0/StardewPerformanceOptimizer.dll
+          name: StardewPerformanceOptimizer-Android
+          path: artifact/
+          if-no-files-found: error
           
