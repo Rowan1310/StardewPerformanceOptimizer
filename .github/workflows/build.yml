@@ -16,10 +16,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
+      - name: Setup SMAPI build environment
+        uses: Pathoschild/SMAPI-ModBuildWorkflow/add-build-environment@v1
 
       - name: Restore dependencies
         run: dotnet restore StardewPerformanceOptimizer.vbproj
@@ -27,9 +25,9 @@ jobs:
       - name: Build mod
         run: dotnet build StardewPerformanceOptimizer.vbproj --configuration Release --no-restore
 
-      - name: Upload DLL
+      - name: Upload compiled DLL
         uses: actions/upload-artifact@v4
         with:
-          name: StardewPerformanceOptimizer
+          name: StardewPerformanceOptimizer-DLL
           path: bin/Release/net6.0/StardewPerformanceOptimizer.dll
           
