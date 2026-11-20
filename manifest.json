@@ -1,0 +1,9 @@
+{
+  "Name": "Stardew Performance Optimizer",
+  "Author": "Custom Mod",
+  "Version": "1.0.0",
+  "Description": "Lightweight performance diagnostics for Stardew Valley Android.",
+  "UniqueID": "Custom.StardewPerformanceOptimizer",
+  "EntryDll": "StardewPerformanceOptimizer.dll",
+  "MinimumApiVersion": "4.0.0"
+}
